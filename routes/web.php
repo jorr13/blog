@@ -23,7 +23,7 @@ Route::post('blog/{id}', 'PostController@store')->name('store');
 
 Route::get('blog/{id}/edit', 'PostController@edit')->name('editpost');
 
-Route::put('blog/{id}', 'PostController@update')->name('actualizar')
+Route::put('blog/{id}', 'PostController@update')->name('actualizar');
 
 Route::get('blog/delete/{id}', 'PostController@delete')->name('eliminar');
 
