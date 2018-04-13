@@ -10,19 +10,20 @@ class PostController extends Controller
      
 
      
-    public function index()
+    public function index($id=null)
     {
-        $posts = post::all();
-	return $posts;
- 
+        if ($id==null) {
+            $posts = post::all();
+            return response()->json($posts, 200);
+        }else{
+            $posts = post::find($id);
+            return response()->json($posts, 200);
+        }
     }
 
-    public function create()
-    {
-        //return view('create');
-    }
+   
 
-    public function store(Request $request)
+    public function create(Request $request)
     {
        
         $this->validate($request, [
@@ -36,17 +37,7 @@ class PostController extends Controller
             'contenido' => $request->get('contenido'),
             'timestamp' => $request->get('timestamp')
         ]);
-    }
-
-
-    public function show(post $posts)
-    {
-        return $posts;
-    }
-
-    public function edit(post $posts)
-    {
-        //return view('edit');
+        return response()->json($posts, 200);
     }
 
     public function update(Request $request, post $posts)
@@ -61,12 +52,16 @@ class PostController extends Controller
         $posts->fill($request->all());
         
         $updated = $posts->save();
+
+        return response()->json($updated, 200);
     }
 
 
     public function destroy(post $posts)
     {
+        $posts = post::find($id);
         $deleted = $posts->delete();
+        return "se ha elimnado con exito";
     }
 }
  
