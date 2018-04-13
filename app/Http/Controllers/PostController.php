@@ -9,18 +9,27 @@ class PostController extends Controller
 {
      
 
-     
-    public function index($id=null)
+
+    public function index($id = null)
     {
-        if ($id==null) {
+        if($id == null){
             $posts = post::all();
             return response()->json($posts, 200);
-        }else{
-            $posts = post::find($id);
-            return response()->json($posts, 200);
         }
-    }
+        
+        else
+        {
+            $posts = post::find($id);
 
+            if($posts == null)
+            {
+                return "el post no existe";
+            } 
+
+        return response()->json($posts, 200);
+        } 
+       
+    }
    
 
     public function create(Request $request)
@@ -28,14 +37,12 @@ class PostController extends Controller
        
         $this->validate($request, [
           'titulo' => 'required|unique:posts|max:255',
-          'contenido' => 'required',
-          'timestamp' => 'required'
+          'contenido' => 'required'
         ]);
         
         $posts = post::create([
             'titulo' => $request->get('titulo'),
-            'contenido' => $request->get('contenido'),
-            'timestamp' => $request->get('timestamp')
+            'contenido' => $request->get('contenido')
         ]);
         return response()->json($posts, 200);
     }
@@ -45,8 +52,7 @@ class PostController extends Controller
       
         $this->validate($request, [
 		  'titulo' => 'required|unique:posts|max:255',
-          'contenido' => 'required',
-          'timestamp' => 'required'
+          'contenido' => 'required'
         ]);
 
         $posts->fill($request->all());
@@ -57,11 +63,12 @@ class PostController extends Controller
     }
 
 
-    public function destroy(post $posts)
+    public function delete($id)
     {
         $posts = post::find($id);
         $deleted = $posts->delete();
         return "se ha elimnado con exito";
     }
 }
+ 
  
