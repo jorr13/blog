@@ -14,17 +14,13 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('blog/{id?}', 'PostController@index')->name('listar');
 
-Route::get('blog', 'PostController@index')->name('listar');
+Route::post('blog', 'PostController@create')->name('store');
 
-Route::get('blog/create', 'PostController@create')->name('crear');
+Route::post('blog/{id}', 'PostController@update')->name('actualizar');
 
-Route::post('blog/{id}', 'PostController@store')->name('store');
+Route::get('blog/{id}/delete', 'PostController@delete')->name('eliminar');
 
-Route::get('blog/{id}/edit', 'PostController@edit')->name('editpost');
-
-Route::put('blog/{id}', 'PostController@update')->name('actualizar');
-
-Route::get('blog/delete/{id}', 'PostController@delete')->name('eliminar');
 
 
