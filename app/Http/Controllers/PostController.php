@@ -8,13 +8,12 @@ use App\post;
 class PostController extends Controller
 {
      
-
-
-    public function index($id = null)
+   public function index($id = null)
     {
         if($id == null){
             $posts = post::all();
-            return response()->json($posts, 200);
+            return view('postsindex', compact('posts'));
+            //return response()->json($posts, 200);
         }
         
         else
@@ -23,14 +22,22 @@ class PostController extends Controller
 
             if($posts == null)
             {
-                return "el post no existe";
+                 return response()->json(
+            [
+                "status" => 0,
+                "descripcion" => "No se hallaron resultados"
+            ], 200);
             } 
-
-        return response()->json($posts, 200);
+       return view('postsindex', compact('posts'));
+        //return response()->json($posts, 200);
         } 
        
     }
    
+    public function ircrear()
+    {
+        return view('create');
+    }
 
     public function create(Request $request)
     {
